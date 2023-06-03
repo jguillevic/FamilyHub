@@ -1,0 +1,14 @@
+[
+	{
+		"Path":"/"
+		, "Controller":"Home\\HomeController"
+		, "Action":"Display"
+		, "Name":"DisplayHome"
+	},
+	{
+		"Path":"/contact"
+		, "Controller":"Contact\\ContactController"
+		, "Action":"Display"
+		, "Name":"DisplayContact"
+	}
+]

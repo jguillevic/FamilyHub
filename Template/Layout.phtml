@@ -1,0 +1,49 @@
+<?php
+use \Framework\Tools\Helper\RoutesHelper;
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>FamilyHub</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/css/style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700" rel="stylesheet">
+	<script type="text/javascript" src="../Assets/js/jquery/jquery-3.3.1.min.js"></script>
+	<!--Adsense-->
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6876567904210353"
+     crossorigin="anonymous"></script>	
+</head>
+<body>
+	<header class="l-header header">
+		<nav class="nav">
+			<section class="nav__brand">
+				<a class="nav__brand__logo" href="<?= RoutesHelper::Path("DisplayHome"); ?>">FamilyHub</a>
+				<span class="nav__brand__complement">Le hub de toute la famille</span>
+			</section>
+			<section class="nav__menu">
+				<a href="<?= RoutesHelper::Path("DisplayHome"); ?>" class="nav__menu__item--start">Les listes</a>
+				<a href="<?= RoutesHelper::Path("DisplayHome"); ?>" class="nav__menu__item--spending">Les repas</a>
+				<a href="<?= RoutesHelper::Path("DisplayHome"); ?>" class="nav__menu__item--spending">Les tâches</a>
+				<a href="<?= RoutesHelper::Path("DisplayHome"); ?>" class="nav__menu__item--stock-market">Les dépenses</a>
+				<a href="<?= RoutesHelper::Path("DisplayHome"); ?>" class="nav__menu__item--real-estate">Les plannings</a>
+				<a href="<?= RoutesHelper::Path("DisplayContact"); ?>" class="nav__menu__item--contact">Contact</a>
+			</section>
+		</nav>
+	</header>
+	<main class="l-main main">
+		<?php
+			if (isset($this->content))
+			{
+				include($this->content);
+			} 
+		?>
+	</main>
+	<!-- <footer class="l-footer footer">
+		<p class="footer__copyright">
+			Calcul mes impôts © Copyright 2023
+		</p>
+	</footer> -->
+</body>
+</html>
