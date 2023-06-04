@@ -1,7 +1,7 @@
 # FamilyHub
 ## Pré-requis
 ### Composer
-Une fois la solution cloner sur votre poste, lancez la commande "composer install" pour obtenir les packages nécessaires au bon fonctionnement de l'application.
+Une fois la solution clonée sur votre poste, lancez la commande "composer install" pour obtenir les packages nécessaires au bon fonctionnement de l'application.
 ### Variables d'environnement
 Pour que le projet fonctionne, il est nécessaire de créer les variables d'environnement suivantes :
 * Base de données
