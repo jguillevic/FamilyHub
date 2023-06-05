@@ -10,5 +10,23 @@
 		, "Controller":"Contact\\ContactController"
 		, "Action":"Display"
 		, "Name":"DisplayContact"
+	},
+	{
+		"Path":"/user"
+		, "Controller":"User\\UserController"
+		, "Action":"DisplayLoginForm"
+		, "Name":"DisplayLoginForm"
+	},
+	{
+		"Path":"/user/login"
+		, "Controller":"User\\UserController"
+		, "Action":"Login"
+		, "Name":"LoginUser"
+	},
+	{
+		"Path":"/user/logout"
+		, "Controller":"User\\UserController"
+		, "Action":"Logout"
+		, "Name":"LogoutUser"
 	}
 ]

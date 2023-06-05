@@ -1,16 +1,17 @@
 <?php
 
-namespace Controller\Home;
+namespace PL\Controller\Home;
 
 use \Framework\View\View;
 use \Framework\Tools\Helper\PathHelper;
 
-class HomeController
+final class HomeController
 {
-	public function Display($queryParameters)
+	public function Display($queryParameters) : void
 	{
 		$path = PathHelper::GetPath([ "Home", "Display" ]);
 		$view = new View($path);
-		return $view->Render();
+		$view->Render();
+		return;
 	}
 }

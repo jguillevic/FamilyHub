@@ -1,20 +1,21 @@
 <?php
 
-namespace Controller\Contact;
+namespace PL\Controller\Contact;
 
 use \Framework\View\View;
 use \Framework\Tools\Helper\PathHelper;
 
-class ContactController
+final class ContactController
 {
-	public function Display($queryParameters)
+	public function Display($queryParameters) : void
 	{
 		$path = PathHelper::GetPath([ "Contact", "Display" ]);
 		$view = new View($path);
-		return $view->Render();
+		$view->Render();
+		return;
 	}
 
-    public function Send($queryParameters)
+    public function Send($queryParameters) : bool
     {
         return true;
     }

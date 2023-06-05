@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $path = join(DIRECTORY_SEPARATOR, array(__DIR__, 'Framework', 'App.php'));
 include($path);

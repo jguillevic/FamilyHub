@@ -1,0 +1,43 @@
+<?php
+use \Framework\Tools\Helper\RoutesHelper;
+?>
+
+<section class="login">
+    <form id="login-form" class="form" action="<?= RoutesHelper::Path("LoginUser"); ?>" method="POST">
+        <div class="form__head">
+            <h1 class="form__head__title">CONNECTEZ-VOUS</h1>
+        </div>
+        <div class="form__line">
+            <input class="form__line__input" type="text" id="username" name="username" placeholder="Identifiant*" required>
+        </div>
+        <div class="form__line">
+            <input class="form__line__input" type="text" id="password" name="password" placeholder="Mot de passe*" required>
+        </div>
+        <div class="form__buttons">
+            <button class="button g-recaptcha" data-sitekey="6Lc_TTEmAAAAABY9Rhte9updZgNZq4Mxen_ZfSm3" data-callback='onSubmit' data-action='submit'>VALIDER</button>
+        </div>
+    </form>
+</section>
+
+<!-- Google recaptcha. -->
+<!-- <script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+    let contactForm = $("#login-form");   
+
+    function onSubmit(token)
+    {
+        if (contactForm[0].reportValidity())
+        {
+            let url = new URL("/user/login", window.location.origin);
+    	    $.post(url, contactForm.serialize(), function(data) 
+    	    {	
+    	    	var result = JSON.parse(data);
+            
+      	    	if (result.success == false)
+                {
+                    // TODO : Afficher les erreurs.
+                }
+    	    });
+        }
+    }
+</script> -->

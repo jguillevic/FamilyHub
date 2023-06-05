@@ -15,7 +15,7 @@ class FrontController
 
         if ($route !== null)
         {
-            $controller = "\Controller\\" . $route->GetController();
+            $controller = "\PL\Controller\\" . $route->GetController();
             $action = $route->GetAction();
 
             $params = array();

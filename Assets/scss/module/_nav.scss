@@ -68,7 +68,7 @@
 
 			&::before
 			{
-				font-family: "Font Awesome 5 Free";
+				font-family: "Font Awesome 6 Free";
 				font-weight: 700;
 				font-size: 2em;
 				display: block;
@@ -153,6 +153,16 @@
 			&::before
 			{
 				content: "\f0e0";
+			}
+		}
+
+		&__item--user-account
+		{
+			@extend .nav__menu__item;
+
+			&::before
+			{
+				content: "\f007";
 			}
 		}
 	}
