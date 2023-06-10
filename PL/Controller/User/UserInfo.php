@@ -1,12 +1,11 @@
 <?php
 
-namespace Model\User;
+namespace PL\Controller\User;
 
-final class User
+final class UserInfo
 {
 	private $id;
 	private $username;
-	private $email;
 
 	public function getId() : string
     {
@@ -26,15 +25,5 @@ final class User
 	public function setUsername($value) : void
 	{
 		$this->username = $value;
-	}
-
-	public function getEmail() : string
-	{
-		return $this->email;
-	}
-
-	public function setEmail($value) : void
-	{
-		$this->email = $value;
 	}
 }

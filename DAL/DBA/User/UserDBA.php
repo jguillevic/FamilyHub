@@ -14,29 +14,24 @@ final class UserDBA
 
     public function __construct(DBConnection $connect = null) 
     {
-        if ($connect == null) 
-        {
+        if ($connect == null) {
             $this->connect = new DBConnection();
-        } 
-        else 
-        {
+        } else {
             $this->connect = $connect;
         }
     }
 
-    public function IsLoginExists(string $login) : bool 
+    public function isUsernameExists(string $username) : bool 
     {
-        $query = "SELECT COUNT(1) AS count FROM users WHERE login = :login;";
+        $query = "SELECT COUNT(1) AS count FROM users WHERE username = :username;";
 
         $result = true;
 
-        try 
-        {
-            if ($this->connect->BeginTransac()) 
-            {
+        try {
+            if ($this->connect->BeginTransac()) {
                 $count = $this->connect->FetchAll(
                     $query
-                    , [ ":login" => $login ]
+                    , [ ":username" => $username ]
                 )[0]["count"];
 
                 if ($count > 0) {
@@ -47,9 +42,7 @@ final class UserDBA
 
                 $this->connect->CommitTransac();
             }
-        } 
-        catch (\Exception $e) 
-        {
+        } catch (\Exception $e) {
             $this->connect->RollBackTransac();
         }
 
@@ -62,58 +55,47 @@ final class UserDBA
      * @param string $email Adresse électronique dont l'existance est à vérifier
      * @return bool true si elle existe false sinon
      */
-    public function IsEmailExists(string $email) : bool 
+    public function isEmailExists(string $email) : bool 
     {
         $query = "SELECT COUNT(1) AS count FROM users WHERE email = :email;";
 
         $result = true;
 
-        try 
-        {
-            if ($this->connect->BeginTransac()) 
-            {
+        try {
+            if ($this->connect->BeginTransac()) {
                 $count = $this->connect->FetchAll(
                     $query
                     , [ ":email" => $email ]
                 )[0]["count"];
 
-                if ($count > 0) 
-                {
+                if ($count > 0) {
                     $result = true;
-                } 
-                else 
-                {
+                } else {
                     $result = false;
                 }
 
                 $this->connect->CommitTransac();
             }
-        } 
-        catch (\Exception $e) 
-        {
+        } catch (\Exception $e) {
             $this->connect->RollBackTransac();
         }
 
         return $result;
     }
 
-    public function GetHash(string $login) : string 
+    public function getHash(string $username) : string 
     {
-        $query = "SELECT hash FROM users WHERE login = :login;";
+        $query = "SELECT hash FROM users WHERE username = :username;";
 
         $hash = "";
 
-        try 
-        {
-            if ($this->connect->BeginTransac()) 
-            {
-                $hash = $this->connect->FetchAll($query, [ ":login" => $login ])[0]["hash"];
+        try {
+            if ($this->connect->BeginTransac()) {
+                $hash = $this->connect->FetchAll($query, [ ":username" => $username ])[0]["hash"];
 
                 $this->connect->CommitTransac();
             }
-        } 
-        catch (\Exception $e) 
-        {
+        } catch (\Exception $e) {
             $this->connect->RollBackTransac();
         }
 
@@ -123,33 +105,28 @@ final class UserDBA
     /**
      * Retourne l'utilisateur associé au mot de passe en paramètre.
      * 
-     * @param string $login Identifiant de l'utilisateur
+     * @param string $username Identifiant de l'utilisateur
      * @return User Utilisateur associé
      */
-    public function GetUser(string $login) : User 
+    public function getUser(string $username) : User 
     {
-        $query = "SELECT id, login, email FROM users WHERE login = :login;";
+        $query = "SELECT id, username, email FROM users WHERE username = :username;";
 
         $user = new User();
 
-        try 
-        {
-            if ($this->connect->BeginTransac()) 
-            {
-                $result = $this->connect->FetchAll($query, [ ":login" => $login ]);
+        try {
+            if ($this->connect->BeginTransac()) {
+                $result = $this->connect->FetchAll($query, [ ":username" => $username ]);
 
                 $this->connect->CommitTransac();
 
-                if (count($result) > 0) 
-                {
+                if (count($result) > 0) {
                     $user->SetId($result[0]["id"]);
-                    $user->SetUsername($result[0]["login"]);
+                    $user->SetUsername($result[0]["username"]);
                     $user->SetUsername($result[0]["email"]);
                 }
             }
-        } 
-        catch (\Exception $e) 
-        {
+        } catch (\Exception $e) {
             $this->connect->RollBackTransac();
         }
 
@@ -163,30 +140,26 @@ final class UserDBA
      * @param string $hash Mot de passe hashé
      * @return bool true si l'ajout est un succès, false sinon
      */
-    public function AddUser(User $user, string $hash) : bool 
+    public function addUser(User $user, string $hash) : bool 
     {
-        $query = "INSERT INTO users (login, email, hash) VALUES (:login, :email, :hash);";
+        $query = "INSERT INTO users (username, email, hash) VALUES (:username, :email, :hash);";
 
         $result = false;
 
-        try 
-        {
-            if ($this->connect->BeginTransac()) 
-            {
+        try {
+            if ($this->connect->BeginTransac()) {
                 $result = $this->connect->Execute(
                     $query
                     , [ 
-                        ":login" => $user->GetUsername() 
-                        //, ":email" => $user->GetEmail()
+                        ":username" => $user->GetUsername() 
+                        , ":email" => $user->GetEmail()
                         , ":hash" => $hash
                     ]);
 
                 if ($result)
                     $this->connect->CommitTransac();
             }
-        } 
-        catch (\Exception $e) 
-        {
+        } catch (\Exception $e) {
             $this->connect->RollBackTransac();
         }
 
