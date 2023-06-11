@@ -1,0 +1,23 @@
+<?php
+use \Framework\Tools\Helper\RoutesHelper;
+?>
+
+<section class="add">
+    <form id="add-form" class="form" action="<?= RoutesHelper::Path("AddUser"); ?>" method="POST">
+        <div class="form__head">
+            <h1 class="form__head__title">INSCRIVEZ-VOUS</h1>
+        </div>
+        <div class="form__line">
+            <input class="form__line__input" type="text" id="username" name="username" placeholder="Identifiant*" required>
+        </div>
+        <div class="form__line">
+            <input class="form__line__input" type="text" id="email" name="email" placeholder="E-mail*" required>
+        </div>
+        <div class="form__line">
+            <input class="form__line__input" type="text" id="password" name="password" placeholder="Mot de passe*" required>
+        </div>
+        <div class="form__buttons">
+            <button class="button" type="submit">VALIDER</button>
+        </div>
+    </form>
+</section>

@@ -2,9 +2,9 @@
 
 namespace Framework\Database;
 
-use \Framework\Database\DBTransaction;
+use \Framework\Database\DbTransaction;
 
-class DBConnection {
+class DbConnection {
     /**
      * @var \PDO
      */
@@ -15,34 +15,34 @@ class DBConnection {
     private $transac;
 
     public function __construct() {
-        $this->pdo = new \PDO(getenv("DB_ENGINE") . ":dbname=" . getenv("DB_NAME") . ";host=" . getenv("DB_SERVER"), getenv("DB_LOGIN"), getenv("DB_PASSWORD"), [ \PDO::ATTR_AUTOCOMMIT=>FALSE ]);
-        $this->transac = new DBTransaction($this->pdo);
+        $this->pdo = new \PDO(getenv("DB_ENGINE") . ":dbname=" . getenv("DB_NAME") . ";host=" . getenv("DB_SERVER"), getenv("DB_USERNAME"), getenv("DB_PASSWORD"), [ \PDO::ATTR_AUTOCOMMIT=>FALSE ]);
+        $this->transac = new DbTransaction($this->pdo);
     }
 
-    public function BeginTransac() : bool {
+    public function beginTransac() : bool {
         return $this->transac->Begin();
     }
 
-    public function CommitTransac() : bool {
+    public function commitTransac() : bool {
         return $this->transac->Commit();
     }
 
-    public function RollBackTransac() : bool {
+    public function rollBackTransac() : bool {
         return $this->transac->RollBack();
     }
 
-    public function Execute(string $query, array $params) : bool {
+    public function execute(string $query, array $params) : bool {
         $st = $this->pdo->prepare($query);
         return $st->execute($params);
     }
 
-    public function FetchAll(string $query, array $params) : array {
+    public function fetchAll(string $query, array $params) : array {
         $st = $this->pdo->prepare($query);
         $st->execute($params);
         return $st->fetchAll();
     }
 
-    public function GetLastInsertId() : string {
+    public function getLastInsertId() : string {
         return $this->pdo->lastInsertId();
     }
 }

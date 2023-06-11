@@ -2,25 +2,31 @@
 	{
 		"Path":"/"
 		, "Controller":"Home\\HomeController"
-		, "Action":"Display"
+		, "Action":"display"
 		, "Name":"DisplayHome"
 	},
 	{
 		"Path":"/contact"
 		, "Controller":"Contact\\ContactController"
-		, "Action":"Display"
+		, "Action":"display"
 		, "Name":"DisplayContact"
 	},
 	{
-		"Path":"/user"
+		"Path":"/user/login"
 		, "Controller":"User\\UserController"
-		, "Action":"Login"
+		, "Action":"login"
 		, "Name":"LoginUser"
 	},
 	{
 		"Path":"/user/logout"
 		, "Controller":"User\\UserController"
-		, "Action":"Logout"
+		, "Action":"logout"
 		, "Name":"LogoutUser"
+	},
+	{
+		"Path":"/user/add"
+		, "Controller":"User\\UserController"
+		, "Action":"add"
+		, "Name":"AddUser"
 	}
 ]

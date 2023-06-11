@@ -2,7 +2,7 @@
 
 namespace Framework\Database;
 
-class DBTransaction {
+final class DbTransaction {
     /**
      * @var int 
      */
@@ -20,7 +20,7 @@ class DBTransaction {
         $this->pdo = $pdo;
     }
 
-    public function Begin() : bool 
+    public function begin() : bool 
     {
         $result = false;
 
@@ -35,7 +35,7 @@ class DBTransaction {
         return $result;
     }
 
-    public function Commit() : bool 
+    public function commit() : bool 
     {
         if ($this->count == 1)
             $result = $this->pdo->commit();
@@ -48,7 +48,7 @@ class DBTransaction {
         return $result;
     }
 
-    public function RollBack() : bool 
+    public function rollBack() : bool 
     {
         if ($this->count > 0) {
             $this->count = 0;

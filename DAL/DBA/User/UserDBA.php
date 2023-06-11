@@ -3,19 +3,19 @@
 namespace DAL\DBA\User;
 
 use \Model\User\User;
-use \Framework\Database\DBConnection;
+use \Framework\Database\DbConnection;
 
 final class UserDBA
 {
     /**
-     * @var DBConnection
+     * @var DbConnection
      */
     private $connect;
 
-    public function __construct(DBConnection $connect = null) 
+    public function __construct(DbConnection $connect = null) 
     {
         if ($connect == null) {
-            $this->connect = new DBConnection();
+            $this->connect = new DbConnection();
         } else {
             $this->connect = $connect;
         }

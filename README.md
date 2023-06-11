@@ -9,7 +9,7 @@ Pour que le projet fonctionne, il est nécessaire de créer les variables d'envi
     * DB_NAME : Nom de la base de données
     * DB_SERVER : Url du serveur
     * DB_USERNAME : Nom d'utilisateur
-    * DB_Password : Mot de passe
+    * DB_PASSWORD : Mot de passe
 * Google recaptcha
     * G_RECAPTCHA_SECRET_KEY : Clé secrète pour grecaptcha
  

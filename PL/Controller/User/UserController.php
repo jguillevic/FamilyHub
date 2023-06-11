@@ -21,7 +21,6 @@ final class UserController
 		$this->userService = new UserService();
     }
 	
-
     /**
      * Récupère la variable "login" dans $data.
      * Si la variable n'existe pas, "" est retourné.
@@ -70,7 +69,7 @@ final class UserController
 	public function login($queryParameters) : void
     {
 		if ($this->userSession->isLogin()) {
-			RoutesHelper::Redirect("DisplayHome");
+			RoutesHelper::redirect("DisplayHome");
 		}
 
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -89,17 +88,17 @@ final class UserController
 			if (count($userLoginInfo->getErrors()["username"]) == 0 
 			&& count($userLoginInfo->getErrors()["password"]) == 0) {
 				$this->userSession->login($userLoginInfo->getId(), $userLoginInfo->getUsername());
-				RoutesHelper::Redirect("DisplayHome");
+				RoutesHelper::redirect("DisplayHome");
 				return;
 			}
 		} else {
-			RoutesHelper::Redirect("DisplayHome");
+			RoutesHelper::redirect("DisplayHome");
 			return;
 		}
 
-		$path = PathHelper::GetPath([ "User", "Login" ]);
+		$path = PathHelper::getPath([ "User", "Login" ]);
 		$view = new View($path);
-		$view->Render([ 
+		$view->render([ 
             "login" => $userLoginInfo->getUsername()
             , "password" => $userLoginInfo->getPassword()
             , "errors" => $userLoginInfo->getErrors()
@@ -109,20 +108,20 @@ final class UserController
     public function logout($queryParameters) : void
 	{
 		if (!$this->userSession->IsLogin()) {
-			RoutesHelper::Redirect("DisplayHome");
+			RoutesHelper::redirect("DisplayHome");
 			return;
 		}
 
 		$this->userSession->logout();
 
-		RoutesHelper::Redirect("DisplayHome");
+		RoutesHelper::redirect("DisplayHome");
 		return;
 	}
 
 	public function add($queryParameters) : void 
 	{
         if ($this->userSession->IsLogin()) {
-            RoutesHelper::Redirect("DisplayHome");
+            RoutesHelper::redirect("DisplayHome");
 			return;
 		}
 
@@ -144,17 +143,17 @@ final class UserController
 			&&  count($userAddInfo->getErrors()["email"]) == 0
 			&& count($userAddInfo->getErrors()["password"]) == 0
 			&& count($userAddInfo->getErrors()["technical"]) == 0) {
-				RoutesHelper::Redirect("DisplayLogin");
+				RoutesHelper::redirect("DisplayLogin");
 				return;
 			}
         } else {
-            RoutesHelper::Redirect("DisplayHome");
+            RoutesHelper::redirect("DisplayHome");
 			return;
         }
 
-		$path = PathHelper::GetPath([ "User", "Add" ]);
+		$path = PathHelper::getPath([ "User", "Add" ]);
 		$view = new View($path);
-		$view->Render([ 
+		$view->render([ 
 			"username" => $userAddInfo->getUsername()
         	, "email" => $userAddInfo->getEmail()
         	, "password" => $userAddInfo->getPassword()

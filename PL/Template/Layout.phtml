@@ -29,7 +29,8 @@ use \PL\Helper\User\UserHelper;
 				<a href="<?= RoutesHelper::Path("DisplayHome"); ?>" class="nav__menu__item--real-estate">Les plannings</a> -->
 				<a href="<?= RoutesHelper::Path("DisplayContact"); ?>" class="nav__menu__item--contact">Contact</a>
 <?php if (!UserHelper::IsLogin()): ?>
-				<a href="<?= RoutesHelper::Path("DisplayLoginForm"); ?>" class="nav__menu__item--user-account">Connexion</a>
+				<a href="<?= RoutesHelper::Path("AddUser"); ?>" class="nav__menu__item--user-account">Inscription</a>
+				<a href="<?= RoutesHelper::Path("LoginUser"); ?>" class="nav__menu__item--user-account">Connexion</a>
 <?php else: ?>
 				<a href="<?= RoutesHelper::Path("LogoutUser"); ?>" class="nav__menu__item--user-account">Déconnexion</a>
 <?php endif; ?>
