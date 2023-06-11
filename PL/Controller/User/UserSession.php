@@ -5,27 +5,30 @@ namespace PL\Controller\User;
 use PL\Controller\User\UserInfo;
 
 final class UserSession {
-    public function isLogin() : bool 
+    const USER_ID = "user_id";
+    const USER_USERNAME = "user_username";
+
+    public static function isLogin() : bool 
     {
-        return array_key_exists("user_id", $_SESSION);
+        return array_key_exists(self::USER_ID, $_SESSION);
     }
 
-    public function login(int $id, string $username) : void 
+    public static function login(int $id, string $username) : void 
     {
-        $_SESSION["user_id"] = $id;
-        $_SESSION["user_username"] = $username;
+        $_SESSION[self::USER_ID] = $id;
+        $_SESSION[self::USER_USERNAME] = $username;
     }
 
-    public function logout() : bool 
+    public static function logout() : bool 
     {
         return session_destroy();
     }
 
-    public function getUser() : UserInfo 
+    public static function getUser() : UserInfo 
     {
-        $user = new UserInfo();
-        $user->setId($_SESSION["user_id"]);
-        $user->setUsername($_SESSION["user_username"]);
-        return $user;
+        $userInfo = new UserInfo();
+        $userInfo->setId($_SESSION[self::USER_ID]);
+        $userInfo->setUsername($_SESSION[self::USER_USERNAME]);
+        return $userInfo;
     }
 }

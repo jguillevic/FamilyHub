@@ -29,6 +29,11 @@ final class UserLoginInfo
      */
     private $errors;
 
+    function __construct() 
+	{
+        $this->setErrors([]);
+    }
+
     /**
      * Get identifiant.
      *
@@ -107,5 +112,17 @@ final class UserLoginInfo
     public function setErrors(array $errors) : void
     {
         $this->errors = $errors;
+    }
+
+    public static function createEmpty() : UserLoginInfo
+    {
+        $userLoginInfo = new UserLoginInfo();
+
+        $userLoginInfo->setId(0);
+		$userLoginInfo->setUsername("");
+        $userLoginInfo->setPassword("");
+        $userLoginInfo->setErrors([ "username" => [], "password" => [] ]);
+        
+        return $userLoginInfo;
     }
 }

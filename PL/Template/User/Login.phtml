@@ -2,7 +2,7 @@
 use \Framework\Tools\Helper\RoutesHelper;
 ?>
 
-<section class="login">
+<section class="content">
     <form id="login-form" class="form" action="<?= RoutesHelper::Path("LoginUser"); ?>" method="POST">
         <div class="form__head">
             <h1 class="form__head__title">CONNECTEZ-VOUS</h1>
@@ -11,7 +11,7 @@ use \Framework\Tools\Helper\RoutesHelper;
             <input class="form__line__input" type="text" id="username" name="username" placeholder="Identifiant*" required>
         </div>
         <div class="form__line">
-            <input class="form__line__input" type="text" id="password" name="password" placeholder="Mot de passe*" required>
+            <input class="form__line__input" type="password" id="password" name="password" placeholder="Mot de passe*" required>
         </div>
         <div class="form__buttons">
             <button class="button" type="submit">VALIDER</button>

@@ -28,5 +28,11 @@
 		, "Controller":"User\\UserController"
 		, "Action":"add"
 		, "Name":"AddUser"
+	},
+	{
+		"Path":"/family/display"
+		, "Controller":"Family\\FamilyController"
+		, "Action":"display"
+		, "Name":"DisplayFamily"
 	}
 ]

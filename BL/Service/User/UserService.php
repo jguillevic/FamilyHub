@@ -27,7 +27,7 @@ final class UserService
      * @return UserLoginInfo Infos d'identification.
      */
     public function login(UserLoginInfo $userLoginInfo) : UserLoginInfo {
-        $errors = [ "username" => [], "password" => [] ];
+        $errors = $userLoginInfo->getErrors();
 
         if (empty($userLoginInfo->getUsername())) {
             $errors["username"][] = UserMessages::$usernameEmpty;
@@ -45,6 +45,9 @@ final class UserService
                 $hash = $this->userDBA->getHash($userLoginInfo->getUsername());
                 if (!password_verify($userLoginInfo->getPassword(), $hash)) {
                     $errors["password"][] = UserMessages::$passwordIncorrect;
+                } else {
+                    $user = $this->userDBA->getUser($userLoginInfo->getUsername());
+                    $userLoginInfo->setId($user->getId());
                 }
             }
         }
@@ -74,7 +77,7 @@ final class UserService
             $errors["email"][] = UserMessages::$emailEmpty;
         } else if (strlen($email) > self::EMAIL_MAX_LENGTH) {
             $errors["email"][] = sprintf(UserMessages::$emailTooLong, self::EMAIL_MAX_LENGTH);
-        } else if ($this->userDBA->IsEmailExists($email)) {
+        } else if ($this->userDBA->isEmailExists($email)) {
             $errors["email"][] = UserMessages::$emailAlreadyUsed;
         }
 
@@ -92,13 +95,15 @@ final class UserService
 
             $user = new User();
             $user->setUsername($username);
-            $user->SetEmail($email);
+            $user->setEmail($email);
             $hash = password_hash($password, PASSWORD_DEFAULT);
 
-            if (!$this->userDBA->AddUser($user, $hash)) {
+            if (!$this->userDBA->addUser($user, $hash)) {
                 $errors["technical"][] = UserMessages::$technicalErrorOnUserAdd;
             }
         }
+
+        $userAddInfo->setErrors($errors);
 
         return $userAddInfo;
     }

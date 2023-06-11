@@ -1,6 +1,27 @@
 .content
 {
-	background-color: transparent;
-	display: flex;
-	flex-direction: column;
+    width: 100%;
+    padding-left: 1em;
+    padding-right: 1em;
+	
+}
+
+@media screen and (min-width: 1025px) 
+{
+    .content
+    {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (min-width: 1201px) 
+{
+    .content
+    {
+        width: 40%;
+        margin-left: auto;
+	    margin-right: auto;
+    }
 }

@@ -7,8 +7,7 @@ use \Framework\Tools\Helper\PathHelper;
 
 final class HomeController
 {
-	public function Display($queryParameters) : void
-	{
+	public function display($queryParameters) : void {
 		$path = PathHelper::GetPath([ "Home", "Display" ]);
 		$view = new View($path);
 		$view->Render();

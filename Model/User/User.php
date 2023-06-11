@@ -8,12 +8,12 @@ final class User
 	private $username;
 	private $email;
 
-	public function getId() : string
+	public function getId() : int
     {
         return $this->id;
     }
 
-    public function setId($id) : void
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -23,7 +23,7 @@ final class User
 		return $this->username;
 	}
 
-	public function setUsername($value) : void
+	public function setUsername(string $value) : void
 	{
 		$this->username = $value;
 	}
@@ -33,7 +33,7 @@ final class User
 		return $this->email;
 	}
 
-	public function setEmail($value) : void
+	public function setEmail(string $value) : void
 	{
 		$this->email = $value;
 	}

@@ -12,12 +12,10 @@ use \DTO\User\UserAddInfo;
 
 final class UserController
 {
-    private $userSession;
 	private $userService;
 
     function __construct() 
 	{
-        $this->userSession = new UserSession();
 		$this->userService = new UserService();
     }
 	
@@ -32,7 +30,7 @@ final class UserController
         if (!array_key_exists("username", $data)) {
             return "";
         } else {
-            return $data["username"];
+            return $data["username"]->getValue();
         }
     }
 
@@ -43,11 +41,11 @@ final class UserController
      * @param array Infos réceptionnées.
      * @return string Adresse électronique de l'utilisateur.
      */
-    public static function GetEmail(array $data) : string {
+    public static function getEmail(array $data) : string {
         if (!array_key_exists("email", $data)) {
             return "";
         } else {
-            return $data["email"];
+            return $data["email"]->getValue();
         }
     }
 
@@ -62,23 +60,20 @@ final class UserController
         if (!array_key_exists("password", $data)) {
             return "";
         } else {
-            return $data["password"];
+            return $data["password"]->getValue();
         }
     }
 
-	public function login($queryParameters) : void
+	public function login(array $queryParameters) : void
     {
-		if ($this->userSession->isLogin()) {
+		if (UserSession::isLogin()) {
 			RoutesHelper::redirect("DisplayHome");
 		}
 
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			$userLoginInfo = new UserLoginInfo();
-			$userLoginInfo->setUsername("");
-        	$userLoginInfo->setPassword("");
-        	$userLoginInfo->setErrors([ "login" => [], "password" => [] ]);
+			$userLoginInfo = UserLoginInfo::createEmpty();
 		} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$userLoginInfo = new UserLoginInfo();
+			$userLoginInfo = UserLoginInfo::createEmpty();
 			
 			$userLoginInfo->setUsername(self::getusername($queryParameters));
 			$userLoginInfo->setPassword(self::getPassword($queryParameters));
@@ -87,7 +82,7 @@ final class UserController
 
 			if (count($userLoginInfo->getErrors()["username"]) == 0 
 			&& count($userLoginInfo->getErrors()["password"]) == 0) {
-				$this->userSession->login($userLoginInfo->getId(), $userLoginInfo->getUsername());
+				UserSession::login($userLoginInfo->getId(), $userLoginInfo->getUsername());
 				RoutesHelper::redirect("DisplayHome");
 				return;
 			}
@@ -105,34 +100,31 @@ final class UserController
             ]);
     }
 
-    public function logout($queryParameters) : void
+    public function logout(array $queryParameters) : void
 	{
-		if (!$this->userSession->IsLogin()) {
+		if (!UserSession::isLogin()) {
 			RoutesHelper::redirect("DisplayHome");
 			return;
 		}
 
-		$this->userSession->logout();
+		UserSession::logout();
 
 		RoutesHelper::redirect("DisplayHome");
 		return;
 	}
 
-	public function add($queryParameters) : void 
+	public function add(array $queryParameters) : void 
 	{
-        if ($this->userSession->IsLogin()) {
+        if (UserSession::isLogin()) {
             RoutesHelper::redirect("DisplayHome");
 			return;
 		}
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			$userAddInfo = new UserAddInfo();
-			$userAddInfo->setUsername("");
-			$userAddInfo->setEmail("");
-        	$userAddInfo->setPassword("");
-        	$userAddInfo->setErrors([ "username" => [], "email" => [], "password" => [], "technical" => [] ]);
+			$userAddInfo = UserAddInfo::createEmpty();
         } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userAddInfo = new UserAddInfo();
+            $userAddInfo = UserAddInfo::createEmpty();
+
 			$userAddInfo->setUsername(self::getUsername($queryParameters));
 			$userAddInfo->setEmail(self::getEmail($queryParameters));
         	$userAddInfo->setPassword(self::getPassword($queryParameters));
@@ -143,7 +135,7 @@ final class UserController
 			&&  count($userAddInfo->getErrors()["email"]) == 0
 			&& count($userAddInfo->getErrors()["password"]) == 0
 			&& count($userAddInfo->getErrors()["technical"]) == 0) {
-				RoutesHelper::redirect("DisplayLogin");
+				RoutesHelper::redirect("LoginUser");
 				return;
 			}
         } else {
