@@ -1,0 +1,21 @@
+<?php
+use \Framework\Tools\Helper\RoutesHelper;
+?>
+
+<section class="content">
+    <p>Vous n'avez pas de famille et ça vous rend triste ?<br>
+    Pas de panique, nous allons arranger ça !</p>
+    <form class="form" action="<?= RoutesHelper::Path("AddFamily"); ?>" method="GET">
+        <div class="form__buttons">
+            <button class="button" type="submit" >CRÉER VOTRE FAMILLE</button>
+        </div>
+    </form>
+    <form class="form" action="<?= RoutesHelper::Path("AssociateFamily"); ?>" method="POST">
+        <div class="form__line">
+            <input class="form__line__input" type="text" id="code" name="code" placeholder="Code d'association*" required>
+        </div>
+        <div class="form__buttons">
+            <button class="button" type="submit" >REJOIGNEZ VOTRE FAMILLE</button>
+        </div>
+    </form>
+</section>

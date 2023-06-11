@@ -21,20 +21,48 @@ final class FamilyDBA
         }
     }
 
-    public function getFamilyFromUserId(int $userId) : Family
+    public function hasFamily(int $userId) : bool
     {
-        $family = new Family();
-
-        $query = "SELECT id, code, name 
+        $query = "SELECT COUNT(1) AS count
 FROM families F
 INNER JOIN users_families UF ON F.id = UF.family_id
 WHERE UF.user_id = :userId;";
 
-        try {
-            if ($this->connect->BeginTransac()) {
-                $result = $this->connect->FetchAll($query, [ ":userId" => $userId ]);
+        $result = true;
 
-                $this->connect->CommitTransac();
+        try {
+            if ($this->connect->beginTransac()) {
+                $count = $this->connect->fetchAll(
+                    $query
+                    , [ ":userId" => $userId ]
+                )[0]["count"];
+
+                if ($count > 0) {
+                    $result = true;
+                } else {
+                    $result = false;
+                }
+
+                $this->connect->commitTransac();
+            }
+        } catch (\Exception $e) {
+            $this->connect->rollBackTransac();
+        }
+
+        return $result;
+    }
+
+    public function get(int $id)
+    {
+        $query = "SELECT id, code, name FROM families F WHERE F.id = :id";
+
+        $family = new Family();
+
+        try {
+            if ($this->connect->beginTransac()) {
+                $result = $this->connect->fetchAll($query, [ ":id" => $id ]);
+
+                $this->connect->commitTransac();
 
                 if (count($result) > 0) {
                     $family->setId($result[0]["id"]);
@@ -49,11 +77,39 @@ WHERE UF.user_id = :userId;";
         return $family;
     }
 
-    public function addFamily(string $familyName) : bool
+    public function getFamilyFromUserId(int $userId) : Family
+    {
+        $query = "SELECT id, code, name 
+FROM families F
+INNER JOIN users_families UF ON F.id = UF.family_id
+WHERE UF.user_id = :userId;";
+
+        $family = new Family();
+
+        try {
+            if ($this->connect->beginTransac()) {
+                $result = $this->connect->fetchAll($query, [ ":userId" => $userId ]);
+
+                $this->connect->commitTransac();
+
+                if (count($result) > 0) {
+                    $family->setId($result[0]["id"]);
+                    $family->setCode($result[0]["code"]);
+                    $family->SetName($result[0]["name"]);
+                }
+            }
+        } catch (\Exception $e) {
+            $this->connect->rollBackTransac();
+        }
+
+        return $family;
+    }
+
+    public function add(string $familyName) : int
     {
         $query = "INSERT INTO families (code, name) VALUES (:code, :name);";
 
-        $result = false;
+        $lastId = 0;
 
         try {
             if ($this->connect->beginTransac()) {
@@ -64,14 +120,17 @@ WHERE UF.user_id = :userId;";
                         , ":name" => $familyName
                     ]);
 
-                if ($result)
+                $lastId = $this->connect->getLastInsertId();
+
+                if ($result) {
                     $this->connect->commitTransac();
+                }
             }
         } catch (\Exception $e) {
             $this->connect->rollBackTransac();
         }
 
-        return $result;
+        return $lastId;
     }
 
     public function isCodeExists(string $familyCode) : bool
@@ -102,11 +161,9 @@ WHERE UF.user_id = :userId;";
         return $result;
     }
 
-    public function associateFamily(string $familyCode, int $userId) : bool
+    public function associate(string $familyId, int $userId) : bool
     {
-        $query = "SET @familyId = 0;
-SELECT @familyId = id FROM families WHERE code = :familyCode;
-INSERT INTO users_families (user_id, family_id) VALUES (:userId, @familyId);";
+        $query = "INSERT INTO users_families (user_id, family_id) VALUES (:userId, :familyId);";
 
         $result = false;
 
@@ -115,7 +172,7 @@ INSERT INTO users_families (user_id, family_id) VALUES (:userId, @familyId);";
                 $result = $this->connect->execute(
                     $query
                     , [ 
-                        ":familyCode" => $familyCode
+                        ":familyId" => $familyId
                         , ":userId" => $userId
                     ]);
 

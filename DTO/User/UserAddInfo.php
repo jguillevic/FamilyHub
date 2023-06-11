@@ -53,9 +53,9 @@ final class UserAddInfo
     /**
      * Set identifiant.
      *
-     * @param string $id identifiant.
+     * @param int $id identifiant.
      */ 
-    public function setId(string $id) : void
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -121,7 +121,7 @@ final class UserAddInfo
     }
 
     /**
-     * Get tableaux des erreurs rencontrées au cours du processus d'authentification.
+     * Get tableaux des erreurs rencontrées au cours du processus d'ajout de l'utilisateur.
      *
      * @return array
      */ 
@@ -131,9 +131,9 @@ final class UserAddInfo
     }
 
     /**
-     * Set tableaux des erreurs rencontrées au cours du processus d'authentification.
+     * Set tableaux des erreurs rencontrées au cours du processus d'ajout de l'utilisateur.
      *
-     * @param array  $errors  Tableaux des erreurs rencontrées au cours du processus d'authentification.
+     * @param array  $errors  Tableaux des erreurs rencontrées au cours du processus d'ajout de l'utilisateur.
      */ 
     public function setErrors(array $errors) : void
     {

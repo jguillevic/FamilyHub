@@ -94,7 +94,7 @@ final class UserController
 		$path = PathHelper::getPath([ "User", "Login" ]);
 		$view = new View($path);
 		$view->render([ 
-            "login" => $userLoginInfo->getUsername()
+            "username" => $userLoginInfo->getUsername()
             , "password" => $userLoginInfo->getPassword()
             , "errors" => $userLoginInfo->getErrors()
             ]);

@@ -34,5 +34,17 @@
 		, "Controller":"Family\\FamilyController"
 		, "Action":"display"
 		, "Name":"DisplayFamily"
+	},
+	{
+		"Path":"/family/add"
+		, "Controller":"Family\\FamilyController"
+		, "Action":"add"
+		, "Name":"AddFamily"
+	},
+	{
+		"Path":"/family/associate"
+		, "Controller":"Family\\FamilyController"
+		, "Action":"associate"
+		, "Name":"AssociateFamily"
 	}
 ]

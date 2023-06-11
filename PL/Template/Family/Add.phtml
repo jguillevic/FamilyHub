@@ -1,0 +1,17 @@
+<?php
+use \Framework\Tools\Helper\RoutesHelper;
+?>
+
+<section class="content">
+    <form class="form" action="<?= RoutesHelper::Path("AddFamily"); ?>" method="POST">
+        <div class="form__head">
+            <h1 class="form__head__title">CRÉEZ VOTRE FAMILLE</h1>
+        </div>
+        <div class="form__line">
+            <input class="form__line__input" type="text" id="name" name="name" placeholder="Nom de la famille*" required>
+        </div>
+        <div class="form__buttons">
+            <button class="button" type="submit">AJOUTER</button>
+        </div>
+    </form>
+</section>
