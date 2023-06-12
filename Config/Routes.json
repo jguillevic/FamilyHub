@@ -46,5 +46,30 @@
 		, "Controller":"Family\\FamilyController"
 		, "Action":"associate"
 		, "Name":"AssociateFamily"
+	},
+	{
+		"Path":"/shoppinglist"
+		, "Controller":"ShoppingList\\ShoppingListController"
+		, "Action":"display"
+		, "Name":"DisplayShoppingList"
+	},
+	{
+		"Path":"/shoppinglist/item/add"
+		, "Controller":"ShoppingList\\ShoppingListController"
+		, "Action":"addItem"
+		, "Name":"AddShoppingListItem"
+	},
+	{
+		"Path":"/shoppinglist/item/delete"
+		, "Controller":"ShoppingList\\ShoppingListController"
+		, "Action":"deleteItem"
+		, "Name":"DeleteShoppingListItem"
+	}
+	,
+	{
+		"Path":"/shoppinglist/item/edit"
+		, "Controller":"ShoppingList\\ShoppingListController"
+		, "Action":"editItem"
+		, "Name":"EditShoppingListItem"
 	}
 ]

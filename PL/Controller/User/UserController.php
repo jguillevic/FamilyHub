@@ -14,19 +14,20 @@ final class UserController
 {
 	private $userService;
 
-    function __construct() 
+    public function __construct()
 	{
-		$this->userService = new UserService();
+	    $this->userService = new UserService();
     }
 	
     /**
      * Récupère la variable "login" dans $data.
      * Si la variable n'existe pas, "" est retourné.
-     * 
+     *
      * @param array Infos réceptionnées.
      * @return string Identifiant de l'utilisateur.
      */
-    public static function getUsername(array $data) : string {
+    public static function getUsername(array $data) : string
+    {
         if (!array_key_exists("username", $data)) {
             return "";
         } else {
@@ -37,11 +38,12 @@ final class UserController
     /**
      * Récupère la variable "email" dans $data.
      * Si la variable n'existe pas, "" est retourné.
-     * 
+     *
      * @param array Infos réceptionnées.
      * @return string Adresse électronique de l'utilisateur.
      */
-    public static function getEmail(array $data) : string {
+    public static function getEmail(array $data) : string
+    {
         if (!array_key_exists("email", $data)) {
             return "";
         } else {
@@ -52,11 +54,12 @@ final class UserController
     /**
      * Récupère la variable "password" dans $data.
      * Si la variable n'existe pas, "" est retourné.
-     * 
+     *
      * @param array Infos réceptionnées.
      * @return string Mot de passe de l'utilisateur.
      */
-    public static function getPassword(array $data) : string {
+    public static function getPassword(array $data) : string
+    {
         if (!array_key_exists("password", $data)) {
             return "";
         } else {
@@ -72,7 +75,7 @@ final class UserController
 
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 			$userLoginInfo = UserLoginInfo::createEmpty();
-		} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$userLoginInfo = UserLoginInfo::createEmpty();
 			
 			$userLoginInfo->setUsername(self::getusername($queryParameters));
@@ -80,7 +83,7 @@ final class UserController
 			
 			$userLoginInfo = $this->userService->login($userLoginInfo);
 
-			if (count($userLoginInfo->getErrors()["username"]) == 0 
+			if (count($userLoginInfo->getErrors()["username"]) == 0
 			&& count($userLoginInfo->getErrors()["password"]) == 0) {
 				UserSession::login($userLoginInfo->getId(), $userLoginInfo->getUsername());
 				RoutesHelper::redirect("DisplayHome");
@@ -93,11 +96,13 @@ final class UserController
 
 		$path = PathHelper::getPath([ "User", "Login" ]);
 		$view = new View($path);
-		$view->render([ 
-            "username" => $userLoginInfo->getUsername()
-            , "password" => $userLoginInfo->getPassword()
-            , "errors" => $userLoginInfo->getErrors()
-            ]);
+		$view->render(
+            [
+                "username" => $userLoginInfo->getUsername()
+                , "password" => $userLoginInfo->getPassword()
+                , "errors" => $userLoginInfo->getErrors()
+            ]
+        );
     }
 
     public function logout(array $queryParameters) : void
@@ -110,10 +115,9 @@ final class UserController
 		UserSession::logout();
 
 		RoutesHelper::redirect("DisplayHome");
-		return;
 	}
 
-	public function add(array $queryParameters) : void 
+	public function add(array $queryParameters) : void
 	{
         if (UserSession::isLogin()) {
             RoutesHelper::redirect("DisplayHome");
@@ -122,7 +126,7 @@ final class UserController
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 			$userAddInfo = UserAddInfo::createEmpty();
-        } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userAddInfo = UserAddInfo::createEmpty();
 
 			$userAddInfo->setUsername(self::getUsername($queryParameters));
@@ -145,11 +149,13 @@ final class UserController
 
 		$path = PathHelper::getPath([ "User", "Add" ]);
 		$view = new View($path);
-		$view->render([ 
-			"username" => $userAddInfo->getUsername()
-        	, "email" => $userAddInfo->getEmail()
-        	, "password" => $userAddInfo->getPassword()
-        	, "errors" => $userAddInfo->getErrors()
-			]);
+		$view->render(
+            [
+			    "username" => $userAddInfo->getUsername()
+        	    , "email" => $userAddInfo->getEmail()
+        	    , "password" => $userAddInfo->getPassword()
+        	    , "errors" => $userAddInfo->getErrors()
+			]
+        );
     }
 }

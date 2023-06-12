@@ -14,12 +14,12 @@ final class FamilyController
 {
     private $familyService;
 
-    function __construct() 
+    public function __construct()
 	{
 		$this->familyService = new FamilyService();
     }
 
-    public function display(array $queryParameters) : void 
+    public function display(array $queryParameters) : void
     {
         if (!UserSession::isLogin()) {
 			RoutesHelper::redirect("DisplayHome");
@@ -31,16 +31,16 @@ final class FamilyController
 
             $path = PathHelper::GetPath([ "Family", "Display" ]);
 		    $view = new View($path);
-		    $view->Render([ 
-                "code" => $family->getCode()
-                , "name" => $family->getName() 
-            ]);
-		    return;
+		    $view->Render(
+                [
+                    "code" => $family->getCode()
+                    , "name" => $family->getName()
+                ]
+            );
         } else {
             $path = PathHelper::GetPath([ "Family", "DisplayNoFamily" ]);
 		    $view = new View($path);
 		    $view->Render();
-            return;
         }
     }
 
@@ -61,8 +61,7 @@ final class FamilyController
 
             $fai = $this->familyService->addAndAssociate($fai);
 
-            if (count($fai->getErrors()["name"]) == 0
-			&& count($fai->getErrors()["name"]) == 0) {
+            if (count($fai->getErrors()["name"]) == 0) {
                 RoutesHelper::redirect("DisplayFamily");
                 return;
             }
@@ -70,10 +69,12 @@ final class FamilyController
 
         $path = PathHelper::getPath([ "Family", "Add" ]);
 		$view = new View($path);
-		$view->render([ 
-			"name" => $fai->getName()
-        	, "errors" => $fai->getErrors()
-			]);
+		$view->render(
+            [
+			    "name" => $fai->getName()
+        	    , "errors" => $fai->getErrors()
+			]
+        );
     }
 
     public function associate(array $queryParameters) : void
@@ -95,6 +96,5 @@ final class FamilyController
         }
 
         RoutesHelper::redirect("DisplayHome");
-        return;
     }
 }

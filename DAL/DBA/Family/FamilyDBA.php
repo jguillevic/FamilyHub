@@ -12,7 +12,7 @@ final class FamilyDBA
      */
     private $connect;
 
-    public function __construct(DbConnection $connect = null) 
+    public function __construct(DbConnection $connect = null)
     {
         if ($connect == null) {
             $this->connect = new DbConnection();
@@ -64,7 +64,32 @@ WHERE UF.user_id = :userId;";
 
                 $this->connect->commitTransac();
 
-                if (count($result) > 0) {
+                if (!empty($result)) {
+                    $family->setId($result[0]["id"]);
+                    $family->setCode($result[0]["code"]);
+                    $family->SetName($result[0]["name"]);
+                }
+            }
+        } catch (\Exception $e) {
+            $this->connect->rollBackTransac();
+        }
+
+        return $family;
+    }
+
+    public function getFromCode(string $code)
+    {
+        $query = "SELECT id, code, name FROM families F WHERE F.code = :code";
+
+        $family = new Family();
+
+        try {
+            if ($this->connect->beginTransac()) {
+                $result = $this->connect->fetchAll($query, [ ":code" => $code ]);
+
+                $this->connect->commitTransac();
+
+                if (!empty($result)) {
                     $family->setId($result[0]["id"]);
                     $family->setCode($result[0]["code"]);
                     $family->SetName($result[0]["name"]);
@@ -79,7 +104,7 @@ WHERE UF.user_id = :userId;";
 
     public function getFamilyFromUserId(int $userId) : Family
     {
-        $query = "SELECT id, code, name 
+        $query = "SELECT id, code, name
 FROM families F
 INNER JOIN users_families UF ON F.id = UF.family_id
 WHERE UF.user_id = :userId;";
@@ -92,7 +117,7 @@ WHERE UF.user_id = :userId;";
 
                 $this->connect->commitTransac();
 
-                if (count($result) > 0) {
+                if (!empty($result)) {
                     $family->setId($result[0]["id"]);
                     $family->setCode($result[0]["code"]);
                     $family->SetName($result[0]["name"]);
@@ -115,7 +140,7 @@ WHERE UF.user_id = :userId;";
             if ($this->connect->beginTransac()) {
                 $result = $this->connect->execute(
                     $query
-                    , [ 
+                    , [
                         ":code" => com_create_guid()
                         , ":name" => $familyName
                     ]);
@@ -161,7 +186,7 @@ WHERE UF.user_id = :userId;";
         return $result;
     }
 
-    public function associate(string $familyId, int $userId) : bool
+    public function associate(int $userId, int $familyId) : bool
     {
         $query = "INSERT INTO users_families (user_id, family_id) VALUES (:userId, :familyId);";
 
@@ -171,13 +196,15 @@ WHERE UF.user_id = :userId;";
             if ($this->connect->beginTransac()) {
                 $result = $this->connect->execute(
                     $query
-                    , [ 
-                        ":familyId" => $familyId
-                        , ":userId" => $userId
-                    ]);
+                    , [  
+                         ":userId" => $userId
+                        , ":familyId" => $familyId
+                    ]
+                );
 
-                if ($result)
+                if ($result) {
                     $this->connect->commitTransac();
+                }
             }
         } catch (\Exception $e) {
             $this->connect->rollBackTransac();

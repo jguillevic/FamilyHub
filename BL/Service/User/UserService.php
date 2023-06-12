@@ -15,18 +15,19 @@ final class UserService
 
     private $userDBA;
 
-    function __construct() 
+    public function __construct()
 	{
         $this->userDBA = new UserDBA();
     }
 
     /**
      * Tentative de connexion.
-     * 
+     *
      * @param array Infos réceptionnées.
      * @return UserLoginInfo Infos d'identification.
      */
-    public function login(UserLoginInfo $userLoginInfo) : UserLoginInfo {
+    public function login(UserLoginInfo $userLoginInfo) : UserLoginInfo
+    {
         $errors = $userLoginInfo->getErrors();
 
         if (empty($userLoginInfo->getUsername())) {
@@ -60,39 +61,36 @@ final class UserService
     public function add(UserAddInfo $userAddInfo) : UserAddInfo
     {
         $username = $userAddInfo->getUsername();
-        $email = $userAddInfo->getEmail();
-        $password = $userAddInfo->getPassword();
         $errors = $userAddInfo->getErrors();
 
         if (empty($username)) {
             $errors["username"][] = UserMessages::$usernameEmpty;
-        } else if (strlen($username) > self::USERNAME_MAX_LENGTH) {
+        } elseif (strlen($username) > self::USERNAME_MAX_LENGTH) {
             $errors["username"][] = sprintf(UserMessages::$usernameTooLong, self::USERNAME_MAX_LENGTH);
-        } else if ($this->userDBA->isUsernameExists($username)) {
+        } elseif ($this->userDBA->isUsernameExists($username)) {
             $errors["username"][] = UserMessages::$usernameAlreadyUsed;
         }
 
         $email = $userAddInfo->getEmail();
         if (empty($email)) {
             $errors["email"][] = UserMessages::$emailEmpty;
-        } else if (strlen($email) > self::EMAIL_MAX_LENGTH) {
+        } elseif (strlen($email) > self::EMAIL_MAX_LENGTH) {
             $errors["email"][] = sprintf(UserMessages::$emailTooLong, self::EMAIL_MAX_LENGTH);
-        } else if ($this->userDBA->isEmailExists($email)) {
+        } elseif ($this->userDBA->isEmailExists($email)) {
             $errors["email"][] = UserMessages::$emailAlreadyUsed;
         }
 
         $password = $userAddInfo->getPassword();
         if (empty($password)) {
             $errors["password"][] = UserMessages::$passwordEmpty;
-        } else if (strlen($password) > self::PASSWORD_MAX_LENGTH) {
+        } elseif (strlen($password) > self::PASSWORD_MAX_LENGTH) {
             $errors["password"][] = sprintf(UserMessages::$passwordTooLong, self::PASSWORD_MAX_LENGTH);
         }
 
         // S'il n'y a pas eu d'erreurs.
-        if (count($errors["username"]) == 0 
-            && count($errors["email"]) == 0 
+        if (count($errors["username"]) == 0
+            && count($errors["email"]) == 0
             && count($errors["password"]) == 0) {
-
             $user = new User();
             $user->setUsername($username);
             $user->setEmail($email);

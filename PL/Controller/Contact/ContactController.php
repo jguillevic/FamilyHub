@@ -7,15 +7,14 @@ use \Framework\Tools\Helper\PathHelper;
 
 final class ContactController
 {
-	public function Display($queryParameters) : void
+	public function display($queryParameters) : void
 	{
 		$path = PathHelper::GetPath([ "Contact", "Display" ]);
 		$view = new View($path);
 		$view->Render();
-		return;
 	}
 
-    public function Send($queryParameters) : bool
+    public function send($queryParameters) : bool
     {
         return true;
     }

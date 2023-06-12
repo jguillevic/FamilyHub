@@ -11,6 +11,5 @@ final class HomeController
 		$path = PathHelper::GetPath([ "Home", "Display" ]);
 		$view = new View($path);
 		$view->Render();
-		return;
 	}
 }

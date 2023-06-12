@@ -11,7 +11,7 @@ final class FamilyService
 {
     private $familyDBA;
 
-    function __construct() 
+    public function __construct()
 	{
         $this->familyDBA = new FamilyDBA();
     }
@@ -27,15 +27,16 @@ final class FamilyService
     }
 
     public function addAndAssociate(FamilyAddInfo $fai) : FamilyAddInfo
-    {   
+    {
         // TODO : Gérer les erreurs.
-        // Gérer les transaction.
+        // Gérer les transactions.
         $familyId = intval($this->familyDBA->add($fai->getName()));
 
         if ($familyId > 0) {
             $fai->setId($familyId);
             $family = $this->familyDBA->get($familyId);
             $famAssInfo = FamilyAssociateInfo::createEmpty();
+            $famAssInfo->setUserId($fai->getUserId());
             $famAssInfo->setCode($family->getCode());
             $famAssInfo = $this->associate($famAssInfo);
         }
@@ -46,11 +47,12 @@ final class FamilyService
     public function associate(FamilyAssociateInfo $fai) : FamilyAssociateInfo
     {
         // TODO : Gérer les erreurs.
-        // Gérer les transaction.
+        // Gérer les transactions.
         $isCodeExists = $this->familyDBA->isCodeExists($fai->getCode());
 
         if ($isCodeExists === true) {
-            $result = $this->familyDBA->associate($fai->getCode(), $fai->getUserId());
+            $family = $this->familyDBA->getFromCode($fai->getCode());
+            $result = $this->familyDBA->associate($fai->getUserId(), $family->getId());
         }
 
         return $fai;
