@@ -4,8 +4,10 @@ namespace BL\Service\ShoppingList;
 
 use \Model\ShoppingList\ShoppingList;
 use \Model\ShoppingList\ShoppingListItem;
-use \DTo\ShoppingList\ShoppingListAddInfo;
-use \DTo\ShoppingList\ShoppingListItemAddInfo;
+use \DTO\ShoppingList\ShoppingListAddInfo;
+use \DTO\ShoppingList\ShoppingListItemAddInfo;
+use \DAL\DBA\ShoppingList\ShoppingListDBA;
+use \DAL\DBA\ShoppingList\ShoppingListItemDBA;
 
 final class ShoppingListService
 {
@@ -16,6 +18,6 @@ final class ShoppingListService
 
     public function addItem(ShoppingListItemAddInfo $shoppingListItem) : bool
     {
-        return true;
+        $ = new 
     }
 }
