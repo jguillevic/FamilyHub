@@ -11,13 +11,30 @@ use \DAL\DBA\ShoppingList\ShoppingListItemDBA;
 
 final class ShoppingListService
 {
-    public function add(ShoppingListAddInfo $shoppingList) : bool
+    public function add(ShoppingListAddInfo $shoppingListAddInfo) : ShoppingListAddInfo
     {
-        return true;
+        $slDBA = new ShoppingListDBA();
+
+        $slId = $slDBA->add($shoppingListAddInfo->getFamilyId());
+
+        $shoppingListAddInfo->setId($slId);
+
+        return $shoppingListAddInfo;
     }
 
-    public function addItem(ShoppingListItemAddInfo $shoppingListItem) : bool
+    public function addItem(ShoppingListItemAddInfo $shoppingListItemAddInfo) : ShoppingListItemAddInfo
     {
-        $ = new 
+        $sliDBA = new ShoppingListItemDBA();
+
+        $shoppingListId = $shoppingListItemAddInfo->getShoppingListId();      
+        $sli = new ShoppingListItem();
+        $sli->setName($shoppingListItemAddInfo->getName());
+        $sli->setIsChecked($shoppingListItemAddInfo->getIsChecked());
+
+        $sliId = $sliDBA->add($shoppingListId, $sli);
+        
+        $shoppingListItemAddInfo->setId($sliId);
+
+        return $shoppingListItemAddInfo;
     }
 }
