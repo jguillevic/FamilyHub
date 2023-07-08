@@ -49,6 +49,6 @@ CREATE TABLE shopping_list_items
 	, name VARCHAR(100) NOT NULL
 	, is_checked BOOLEAN NOT NULL
 	, PRIMARY KEY (id)
-	, FOREIGN KEY (shopping_list_id) REFERENCES shopping_list(id)
+	, FOREIGN KEY (shopping_list_id) REFERENCES shopping_lists(id)
 )
 ENGINE=InnoDB;
